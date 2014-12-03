@@ -1,0 +1,51 @@
+[
+    {
+        "name" : "Dustin",
+        "email" : "dustin.boudreau@gmail.com",
+        "isPicked" : false,
+        "cantPick" : ["Dustin", "Michelle"],
+        "picked" : null
+    },
+    {
+        "name" : "Michelle",
+        "email" : "michelleschrupp@gmail.com",
+        "isPicked" : false,
+        "cantPick" : ["Michelle", "Dustin"],
+        "picked" : null
+    },
+    {
+        "name" : "Danielle",
+        "email" : "sbdanib@gmail.com",
+        "isPicked" : false,
+        "cantPick" : ["Danielle", "Jonny","Ally"],
+        "picked" : null
+    },
+    {
+        "name" : "Jonny",
+        "email" : "sbdanib@gmail.com",
+        "isPicked" : false,
+        "cantPick" : ["Jonny", "Danielle","Ally"],
+        "picked" : null
+    },
+    {
+        "name" : "Ally",
+        "email" : "sbdanib@gmail.com",
+        "isPicked" : false,
+        "cantPick" : ["Ally", "Danielle","Jonny"],
+        "picked" : null
+    },
+    {
+        "name" : "Debbie",
+        "email" : "",
+        "isPicked" : false,
+        "cantPick" : ["Debbie"],
+        "picked" : null
+    },
+    {
+        "name" : "Adrianne",
+        "email" : "",
+        "isPicked" : false,
+        "cantPick" : ["Adrianne"],
+        "picked" : null
+    }
+]
