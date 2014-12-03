@@ -2,8 +2,9 @@ var _ = require("lodash");
 var async = require("async");
 var nodemailer = require("nodemailer");
 var prompt = require("prompt");
-var familyMembers = require("./family-members.json");
+var santas = require("./santas.json");
 
+// setup transporter to be used to email later on.
 var transporter = nodemailer.createTransport({
     service: "Gmail",
     auth: {
@@ -12,6 +13,9 @@ var transporter = nodemailer.createTransport({
     }
 });
 
+var fullName;
+var gmailAddress;
+
 async.series([
 
     // prompt for gmail username and password
@@ -19,10 +23,16 @@ async.series([
 
         var promptSchema = {
             properties : {
+                name : {
+                    required : true,
+                    description : "Full Name"
+                },
                 email : {
-                    required : true
+                    required : true,
+                    description : "Gmail Address"
                 },
                 password : {
+                    description : "Password",
                     required : true,
                     hidden : true
                 }
@@ -36,25 +46,27 @@ async.series([
                 user : results.email,
                 pass : results.password
             };
+            fullName = results.name;
+            gmailAddress = results.email;
             callback(null);
         });
     },
 
     // pick names
     function(callback) {
-        _.forEach(familyMembers, function(familyMember) {
+        _.forEach(santas, function(santa) {
             async.until(
 
-                function() { return familyMember.picked },
+                function() { return santa.picked },
 
                 function(callback) {
 
                     var randomNumber = _.random(0,6);
-                    var canPick = _.indexOf(familyMember.cantPick, familyMembers[randomNumber].name);
+                    var canPick = _.indexOf(santa.cantPick, santas[randomNumber].name);
 
-                    if(canPick === -1 && !familyMembers[randomNumber].isPicked) {
-                        familyMember.picked = familyMembers[randomNumber].name;
-                        familyMembers[randomNumber].isPicked = true;
+                    if(canPick === -1 && !santas[randomNumber].isPicked && santas[randomNumber] !== santa) {
+                        santa.picked = santas[randomNumber].name;
+                        santas[randomNumber].isPicked = true;
                         callback(null);
                     } else {
                         callback(null);
@@ -77,13 +89,15 @@ async.series([
     // send emails
     function(callback) {
 
-        _.forEach(familyMembers, function(familyMember) {
+        _.forEach(santas, function(santa) {
+
             var mailOptions = {
-                from: "Dustin Boudreau <dustin.boudreau@gmail.com>",
-                to: "dustin.boudreau@gmail.com",
-                subject: "Your Secret Santa is...",
-                text: "Hi "+familyMember.name+", You will be a secret santa for "+familyMember.picked
+                from: fullName+" <"+gmailAddress+">",
+                to: santa.email,
+                subject: "You're a Secret Santa for...",
+                text: "Hi "+santa.name+", You will be a secret santa for "+santa.picked
             };
+
             transporter.sendMail(mailOptions, function(error, info){
                 if(error){
                     console.log(error);
@@ -91,6 +105,7 @@ async.series([
                     console.log("Message sent: " + info.response);
                 }
             });
+
         });
 
         callback(null);

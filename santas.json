@@ -1,0 +1,23 @@
+[
+    {
+        "name" : "Santa One",
+        "email" : "santa.one@gmail.com",
+        "isPicked" : false,
+        "cantPick" : ["Santa Three"],
+        "picked" : null
+    },
+    {
+        "name" : "Santa Two",
+        "email" : "santa.two@gmail.com",
+        "isPicked" : false,
+        "cantPick" : [],
+        "picked" : null
+    },
+    {
+        "name" : "Santa Three",
+        "email" : "santa.three@gmail.com",
+        "isPicked" : false,
+        "cantPick" : [],
+        "picked" : null
+    }
+]
