@@ -19,5 +19,26 @@
         "isPicked" : false,
         "cantPick" : [],
         "picked" : null
+    },
+    {
+        "name" : "Santa Four",
+        "email" : "santa.three@gmail.com",
+        "isPicked" : false,
+        "cantPick" : [],
+        "picked" : null
+    },
+    {
+        "name" : "Santa Five",
+        "email" : "santa.three@gmail.com",
+        "isPicked" : false,
+        "cantPick" : [],
+        "picked" : null
+    },
+    {
+        "name" : "Santa Six",
+        "email" : "santa.three@gmail.com",
+        "isPicked" : false,
+        "cantPick" : [],
+        "picked" : null
     }
 ]

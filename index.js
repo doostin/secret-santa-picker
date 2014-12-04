@@ -54,36 +54,41 @@ async.series([
 
     // pick names
     function(callback) {
-        _.forEach(santas, function(santa) {
-            async.until(
+        var areAllMatched;
 
-                function() { return santa.picked },
+        function pickSanta() {
+            // Create a duplicate of the possible Santas and randomize them for selection
+            var eligibleSantas = _.shuffle(_.cloneDeep(santas));
 
-                function(callback) {
+            for (var j=0; j < santas.length; j++) {
+                var santa = santas[j];
 
-                    var randomNumber = _.random(0,6);
-                    var canPick = _.indexOf(santa.cantPick, santas[randomNumber].name);
+                for (var i=0; i < eligibleSantas.length; i++) {
+                    var eligibleSanta = eligibleSantas[i];
+                    var canPick = _.indexOf(santa.cantPick, eligibleSanta.name) === -1;
 
-                    if(canPick === -1 && !santas[randomNumber].isPicked && santas[randomNumber] !== santa) {
-                        santa.picked = santas[randomNumber].name;
-                        santas[randomNumber].isPicked = true;
-                        callback(null);
-                    } else {
-                        callback(null);
-                    }
+                    if (canPick && eligibleSanta !== santa) {
+                        santa.picked = eligibleSanta.name;
+                        eligibleSantas.splice(i, 1);
 
-                },
-
-                function(err) {
-
-                    if(err) {
-                        console.log({ "error" : err });
+                        break;
                     }
                 }
-            );
-        });
 
-        callback(null);
+                if (santa.picked == null) {
+                    areAllMatched = false;
+                    return;
+                }
+            }
+
+            areAllMatched = true;
+        }
+
+        while (areAllMatched !== true) {
+            pickSanta();
+        }
+
+        callback();
     },
 
     // send emails
