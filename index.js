@@ -67,7 +67,7 @@ async.series([
                     var eligibleSanta = eligibleSantas[i];
                     var canPick = _.indexOf(santa.cantPick, eligibleSanta.name) === -1;
 
-                    if (canPick && eligibleSanta !== santa) {
+                    if (canPick && eligibleSanta.name !== santa.name) {
                         santa.picked = eligibleSanta.name;
                         eligibleSantas.splice(i, 1);
 
